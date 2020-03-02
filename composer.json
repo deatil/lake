@@ -1,0 +1,19 @@
+{
+    "name": "lake/lake",
+    "description": "The Lake App Package",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "deatil",
+            "email": "deatil@github.com",
+            "homepage": "github.com/deatil"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "lake\\": "src/lake"
+        },
+        "files": [
+        ]
+    }
+}
