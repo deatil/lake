@@ -2,6 +2,13 @@
     "name": "lake/lake",
     "description": "The Lake App Package",
     "license": "Apache-2.0",
+    "type": "library",
+    "keywords": [
+        "lake",
+        "admin",
+        "lake-admin",
+        "lroute"
+    ],
     "authors": [
         {
             "name": "deatil",
