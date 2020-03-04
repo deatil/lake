@@ -5,9 +5,7 @@
     "type": "library",
     "keywords": [
         "lake",
-        "admin",
-        "lake-admin",
-        "lroute"
+        "lake-admin"
     ],
     "authors": [
         {
