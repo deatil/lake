@@ -1,12 +1,13 @@
 {
     "name": "lake/lake",
-    "description": "The Lake App Package",
+    "description": "The Lake is App Package",
     "license": "Apache-2.0",
     "type": "library",
     "keywords": [
         "lake",
         "lake-admin"
     ],
+    "homepage": "https://github.com/deatil",
     "authors": [
         {
             "name": "deatil",
