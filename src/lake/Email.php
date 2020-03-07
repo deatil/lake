@@ -9,14 +9,14 @@ use PHPMailer\PHPMailer\PHPMailer;
  * phpemail类
  *
  * $options = [
-	'mail_type' => '1:SMTP|2:Mail',
-	'mail_smtp_host' => 'smtp.163.com',
-	'mail_smtp_port' => '465',
-	'mail_auth' => '1|0',
-	'mail_smtp_user' => '',
-	'mail_smtp_pass' => '',
-	'mail_verify_type' => '1:TLS|2:SSL',
-	'mail_from' => '',
+    'mail_type' => '1:SMTP|2:Mail',
+    'mail_smtp_host' => 'smtp.163.com',
+    'mail_smtp_port' => '465',
+    'mail_auth' => '1|0',
+    'mail_smtp_user' => '',
+    'mail_smtp_pass' => '',
+    'mail_verify_type' => '1:TLS|2:SSL',
+    'mail_from' => '',
  * ]
  *
  * @create 2019-7-9

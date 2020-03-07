@@ -185,24 +185,24 @@ class Tree
     public function getTreeList($data = [], $field = 'name')
     {
         $arr = [];
-		if (!empty($data)) {
-			foreach ($data as $k => $v) {
-				if (!empty($v)) {
-					$childlist = isset($v['childlist']) ? $v['childlist'] : [];
-					unset($v['childlist']);
-					$v[$field] = $v['spacer'] . ' ' . $v[$field];
-					$v['haschild'] = $childlist ? 1 : 0;
-					if ($v[$this->id]) {
-						$arr[] = $v;
-					}
+        if (!empty($data)) {
+            foreach ($data as $k => $v) {
+                if (!empty($v)) {
+                    $childlist = isset($v['childlist']) ? $v['childlist'] : [];
+                    unset($v['childlist']);
+                    $v[$field] = $v['spacer'] . ' ' . $v[$field];
+                    $v['haschild'] = $childlist ? 1 : 0;
+                    if ($v[$this->id]) {
+                        $arr[] = $v;
+                    }
 
-					if ($childlist) {
-						$arr = array_merge($arr, $this->getTreeList($childlist, $field));
-					}
-				}
-			}
-		}
-		
+                    if ($childlist) {
+                        $arr = array_merge($arr, $this->getTreeList($childlist, $field));
+                    }
+                }
+            }
+        }
+        
         return $arr;
     }
 
@@ -246,9 +246,9 @@ class Tree
             if ($value['parentid'] == $pid) {
                 $result[] = $value['id'];
                 if ($sort == 'asc') {
-					$result = array_merge($result, $this->getChildsId($lists, $value['id'], $sort));
+                    $result = array_merge($result, $this->getChildsId($lists, $value['id'], $sort));
                 } else {
-					$result = array_merge($this->getChildsId($lists, $value['id'], $sort), $result);
+                    $result = array_merge($this->getChildsId($lists, $value['id'], $sort), $result);
                 }
             }
         }
@@ -269,9 +269,9 @@ class Tree
             if ($value['parentid'] == $pid) {
                 $result[] = $value;
                 if ($sort == 'asc') {
-					$result = array_merge($result, $this->getChilds($lists, $value['id'], $sort));
+                    $result = array_merge($result, $this->getChilds($lists, $value['id'], $sort));
                 } else {
-					$result = array_merge($this->getChilds($lists, $value['id'], $sort), $result);
+                    $result = array_merge($this->getChilds($lists, $value['id'], $sort), $result);
                 }
             }
         }

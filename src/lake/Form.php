@@ -53,14 +53,14 @@ class Form
     public static function checkbox($array = array(), $id = '', $str = '', $defaultvalue = '', $field = '')
     {
         $string = '';
-		
-		if (!is_array($id)) {
-			$id = trim($id);
-			if ($id != '') {
-				$id = strpos($id, ',') ? explode(',', $id) : array($id);
-			}
-		}
-		
+        
+        if (!is_array($id)) {
+            $id = trim($id);
+            if ($id != '') {
+                $id = strpos($id, ',') ? explode(',', $id) : array($id);
+            }
+        }
+        
         if ($defaultvalue) {
             $string .= '<input type="hidden" ' . $str . ' value="-99">';
         }

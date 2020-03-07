@@ -13,9 +13,9 @@ class File
 
     /**
      * 计算文件大小
-	 *
-	 * @create 2019-10-15
-	 * @author deatil
+     *
+     * @create 2019-10-15
+     * @author deatil
      */
     public static function byteFormat($bytes)
     {
@@ -27,9 +27,9 @@ class File
      * 读取文件内容
      * @param $filename  文件名
      * @return string 文件内容
-	 *
-	 * @create 2019-10-15
-	 * @author deatil
+     *
+     * @create 2019-10-15
+     * @author deatil
      */
     public static function readFile($filename)
     {
@@ -46,14 +46,14 @@ class File
     }
 
     /**
-	 * 写入文件
+     * 写入文件
      * @param $filename
      * @param $writetext
      * @param string $openmod
      * @return bool
-	 *
-	 * @create 2019-10-15
-	 * @author deatil
+     *
+     * @create 2019-10-15
+     * @author deatil
      */
     public static function writeFile($filename, $writetext, $openmod = 'w')
     {
@@ -68,14 +68,14 @@ class File
     }
 
     /**
-	 * 删除全部
-	 *
+     * 删除全部
+     *
      * @param $path
      * @param bool $delDir
      * @return bool
-	 *
-	 * @create 2019-10-15
-	 * @author deatil
+     *
+     * @create 2019-10-15
+     * @author deatil
      */
     public static function delAll($path, $delDir = false)
     {
@@ -84,12 +84,12 @@ class File
             while (false !== ($item = readdir($handle))) {
                 if ($item != "." && $item != "..") {
                     is_dir("$path/$item") ? self::delAll("$path/$item", $delDir) : unlink("$path/$item");
-				}
+                }
             }
             closedir($handle);
             if ($delDir) {
                 return rmdir($path);
-			}
+            }
         } else {
             if (file_exists($path)) {
                 return unlink($path);
@@ -100,12 +100,12 @@ class File
     }
 
     /**
-	 * 删除
+     * 删除
      * @param $dirName
      * @return bool
-	 *
-	 * @create 2019-10-15
-	 * @author deatil
+     *
+     * @create 2019-10-15
+     * @author deatil
      */
     public static function delDir($dirName)
     {
@@ -129,13 +129,13 @@ class File
     }
 
     /**
-	 * 复制
+     * 复制
      * @param $surDir
      * @param $toDir
      * @return bool
-	 *
-	 * @create 2019-10-15
-	 * @author deatil
+     *
+     * @create 2019-10-15
+     * @author deatil
      */
     public static function copyDir($surDir, $toDir)
     {
@@ -165,12 +165,12 @@ class File
     }
 
     /**
-	 * 创建文件夹
+     * 创建文件夹
      * @param $dir
      * @return bool
-	 *
-	 * @create 2019-10-15
-	 * @author deatil
+     *
+     * @create 2019-10-15
+     * @author deatil
      */
     public static function mkDir($dir)
     {
@@ -197,7 +197,7 @@ class File
     {
         if (!is_dir($path)) {
             return null;
-		}
+        }
 
         $handle = opendir($path);
         while (false !== ($file = readdir($handle))) {
@@ -220,9 +220,9 @@ class File
      * @param $dir
      * @param bool $doc
      * @return array
-	 *
-	 * @create 2019-10-15
-	 * @author deatil
+     *
+     * @create 2019-10-15
+     * @author deatil
      */
     public static function getDirs($dir, $doc = false)
     {
@@ -254,37 +254,37 @@ class File
     /**
      * @param $dir
      * @return int|string
-	 *
-	 * @create 2019-10-15
-	 * @author deatil
+     *
+     * @create 2019-10-15
+     * @author deatil
      */
     public static function dirSize($dir)
     {
         if (!self::readable($dir)) {
-			return 0;
-		}
-		
-		$dir_list = opendir($dir);
-		$dir_size = 0;
-		while (false !== ($folder_or_file = readdir($dir_list))) {
-			if ($folder_or_file != "." && $folder_or_file != "..") {
-				if (is_dir("$dir/$folder_or_file")) {
-					$dir_size += self::dirSize("$dir/$folder_or_file");
-				} else {
-					$dir_size += filesize("$dir/$folder_or_file");
-				}
-			}
-		}
-		closedir($dir_list);
-		return $dir_size;
+            return 0;
+        }
+        
+        $dir_list = opendir($dir);
+        $dir_size = 0;
+        while (false !== ($folder_or_file = readdir($dir_list))) {
+            if ($folder_or_file != "." && $folder_or_file != "..") {
+                if (is_dir("$dir/$folder_or_file")) {
+                    $dir_size += self::dirSize("$dir/$folder_or_file");
+                } else {
+                    $dir_size += filesize("$dir/$folder_or_file");
+                }
+            }
+        }
+        closedir($dir_list);
+        return $dir_size;
     }
-	
+    
     /**
      * @param null $dir
      * @return string
-	 *
-	 * @create 2019-10-15
-	 * @author deatil
+     *
+     * @create 2019-10-15
+     * @author deatil
      */
     public static function realSize($dir = null)
     {
@@ -293,7 +293,7 @@ class File
                 return self::byteFormat(filesize($dir));
             } else {
                 return self::byteFormat(self::dirSize($dir));
-			}
+            }
         } else
             return "文件不存在";
 
@@ -302,9 +302,9 @@ class File
     /**
      * @param null $dir
      * @return bool
-	 *
-	 * @create 2019-10-15
-	 * @author deatil
+     *
+     * @create 2019-10-15
+     * @author deatil
      */
     public static function readable($dir = null)
     {
@@ -322,9 +322,9 @@ class File
     /**
      * @param null $dir
      * @return bool
-	 *
-	 * @create 2019-10-15
-	 * @author deatil
+     *
+     * @create 2019-10-15
+     * @author deatil
      */
     public static function writeable($dir = null)
     {
@@ -344,14 +344,14 @@ class File
             return false;
         };
     }
-	
+    
     /**
      * 检测是否为空文件夹
      * @param $dir  目录名
      * @return boolean true 空， fasle 不为空
-	 *
-	 * @create 2019-10-15
-	 * @author deatil
+     *
+     * @create 2019-10-15
+     * @author deatil
      */
     public static function emptyDir($dir)
     {
@@ -362,63 +362,63 @@ class File
      * @param $path
      * @param int $property
      * @return bool
-	 *
-	 * @create 2019-10-15
-	 * @author deatil
+     *
+     * @create 2019-10-15
+     * @author deatil
      */
     public static function makeDir($path, $property = 0777)
     {
         return is_dir($path) or (self::makeDir(dirname($path), $property) and @mkdir($path, $property));
     }
-	
+    
     /**
-	 * 删除
+     * 删除
      * @param $dirName
      * @return bool
-	 *
-	 * @create 2019-10-15
-	 * @author deatil
+     *
+     * @create 2019-10-15
+     * @author deatil
      */
     public function iDelFile($dir,$file_type='') 
-	{
-    	if(is_dir($dir)){
-    		$files = self::iscandir($dir);
-    		//打开目录 //列出目录中的所有文件并去掉 . 和 ..
-    		foreach($files as $filename){
-    			if($filename!='.' && $filename!='..'){
-    				if(!is_dir($dir.'/'.$filename)){
-    					if(empty($file_type)){
-    						unlink($dir.'/'.$filename);
-    					}else{
-    						if(is_array($file_type)){
-    							//正则匹配指定文件
-    							if(preg_match($file_type[0],$filename)){
-    								unlink($dir.'/'.$filename);
-    							}
-    						}else{
-    							//指定包含某些字符串的文件
-    							if(false!=stristr($filename,$file_type)){
-    								unlink($dir.'/'.$filename);
-    							}
-    						}
-    					}
-    				}else{
-    					self::iDelFile($dir.'/'.$filename);
-    					rmdir($dir.'/'.$filename);
-    				}
-    			}
-    		}
-    	}else{
-    		if(file_exists($dir)) unlink($dir);
-    	}
+    {
+        if(is_dir($dir)){
+            $files = self::iscandir($dir);
+            //打开目录 //列出目录中的所有文件并去掉 . 和 ..
+            foreach($files as $filename){
+                if($filename!='.' && $filename!='..'){
+                    if(!is_dir($dir.'/'.$filename)){
+                        if(empty($file_type)){
+                            unlink($dir.'/'.$filename);
+                        }else{
+                            if(is_array($file_type)){
+                                //正则匹配指定文件
+                                if(preg_match($file_type[0],$filename)){
+                                    unlink($dir.'/'.$filename);
+                                }
+                            }else{
+                                //指定包含某些字符串的文件
+                                if(false!=stristr($filename,$file_type)){
+                                    unlink($dir.'/'.$filename);
+                                }
+                            }
+                        }
+                    }else{
+                        self::iDelFile($dir.'/'.$filename);
+                        rmdir($dir.'/'.$filename);
+                    }
+                }
+            }
+        }else{
+            if(file_exists($dir)) unlink($dir);
+        }
     }
-	
+    
     /**
      * @param $dir
      * @return bool
-	 *
-	 * @create 2019-10-15
-	 * @author deatil
+     *
+     * @create 2019-10-15
+     * @author deatil
      */
     public static function iemptyDir($dir)
     {
@@ -432,9 +432,9 @@ class File
      * @param $dir
      * @param bool $file
      * @return array
-	 *
-	 * @create 2019-10-15
-	 * @author deatil
+     *
+     * @create 2019-10-15
+     * @author deatil
      */
     public static function scanDir($dir, $file = false)
     {
@@ -462,9 +462,9 @@ class File
 
     /**
      * 创建时间
-	 *
-	 * @create 2019-10-15
-	 * @author deatil
+     *
+     * @create 2019-10-15
+     * @author deatil
      */
     public static function filemtime($file)
     {
@@ -473,9 +473,9 @@ class File
 
     /**
      * 创建时间
-	 *
-	 * @create 2019-10-15
-	 * @author deatil
+     *
+     * @create 2019-10-15
+     * @author deatil
      */
     public static function filectime($file)
     {
@@ -484,23 +484,23 @@ class File
 
     /**
      * 更新时间
-	 *
-	 * @create 2019-10-15
-	 * @author deatil
+     *
+     * @create 2019-10-15
+     * @author deatil
      */
     public static function fileatime($file)
     {
         return fileatime($file);
     }
-	
+    
     /**
      * 部分空间为了安全起见，禁用scandir函数
      *
      * @param string $dir 路径
      * @return array
-	 *
-	 * @create 2019-10-15
-	 * @author deatil
+     *
+     * @create 2019-10-15
+     * @author deatil
      */
     public static function iscandir($dir, $type = 'all')
     {
