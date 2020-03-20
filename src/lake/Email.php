@@ -9,13 +9,13 @@ use PHPMailer\PHPMailer\PHPMailer;
  * phpemail类
  *
  * $options = [
-    'mail_type' => '1:SMTP|2:Mail',
+    'mail_type' => '1', // 1:SMTP|2:Mail
     'mail_smtp_host' => 'smtp.163.com',
     'mail_smtp_port' => '465',
-    'mail_auth' => '1|0',
+    'mail_auth' => '1', // 1|0
     'mail_smtp_user' => '',
     'mail_smtp_pass' => '',
-    'mail_verify_type' => '1:TLS|2:SSL',
+    'mail_verify_type' => '1', // 1:TLS|2:SSL
     'mail_from' => '',
  * ]
  *
@@ -43,6 +43,14 @@ class Email
      */
     public $options = [
         'debug' => 0, //关闭调式模式
+        'mail_type' => '1', // 1:SMTP|2:Mail
+        'mail_smtp_host' => 'smtp.163.com',
+        'mail_smtp_port' => '465',
+        'mail_auth' => '1', // 1|0
+        'mail_smtp_user' => '',
+        'mail_smtp_pass' => '',
+        'mail_verify_type' => '1', // 1:TLS|2:SSL
+        'mail_from' => '',
     ];
 
     /**
@@ -66,10 +74,6 @@ class Email
      */
     public function __construct($options = [])
     {
-        if ($config = \think\facade\Config::get('app.')) {
-            $this->options = array_merge($this->options, $config);
-        }
-
         $this->options = array_merge($this->options, $options);
         $securArr = [1 => 'tls', 2 => 'ssl'];
         $this->mail = new PHPMailer(true);
@@ -77,17 +81,17 @@ class Email
         $this->mail->isSMTP();
         $this->mail->Host = $this->options['mail_smtp_host']; //SMTP服务器
         // 设置为“需要验证”
-        if ($this->options['mail_auth']['key']) {
+        if ($this->options['mail_auth']) {
             $this->mail->SMTPAuth = true;
         } else {
             $this->mail->SMTPAuth = false;
         }
         $this->mail->Username = $this->options['mail_smtp_user']; //SMTP username
         $this->mail->Password = $this->options['mail_smtp_pass']; // SMTP password
-        $this->mail->SMTPSecure = isset($securArr[$this->options['mail_verify_type']['key']]) ? $securArr[$this->options['mail_verify_type']['key']] : ''; //支持TLS加密,还接受了ssl
+        $this->mail->SMTPSecure = isset($securArr[$this->options['mail_verify_type']]) ? $securArr[$this->options['mail_verify_type']] : ''; //支持TLS加密,还接受了ssl
         $this->mail->Port = $this->options['mail_smtp_port']; //TCP端口连接
 
-        //设置发件人
+        // 设置发件人
         $this->from($this->options['mail_from']);
     }
 
@@ -141,11 +145,14 @@ class Email
         return $this;
     }
 
-    //发送邮件
+    /**
+     * 发送邮件
+     * @return boolean 
+     */
     public function send()
     {
         $result = false;
-        switch ($this->options['mail_type']['key']) {
+        switch ($this->options['mail_type']) {
             case 1:
                 try
                 {
