@@ -142,7 +142,7 @@ class Date
                 break;
             }
         }
-        return "{$count} {$name}".($count > 1 ? 's' : '')." 前";
+        return __("%d {$name}%s ago", $count, ($count > 1 ? 's' : ''));
     }
 
     /**

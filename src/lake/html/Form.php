@@ -660,11 +660,11 @@ EOD;
      */
     public function fieldlist($name, $value, $title = null, $template = null, $options = [])
     {
-        $append = '添加';
+        $append = __('Append');
         $template = $template ? 'data-template="' . $template . '"' : '';
         $attributes = $this->attributes($options);
         if (is_null($title)) {
-            $title = ['key', '值'];
+            $title = [__('Key'), __('Value')];
         }
         $ins = implode("\n", array_map(function ($value) {
             return "<ins>{$value}</ins>";
@@ -1012,7 +1012,7 @@ EOD;
         if ($preview) {
             $options['data-preview-id'] = "p-{$domname}";
         }
-        $uploadBtn = $upload ? $this->button('<i class="fa fa-upload"></i> 上传', array_merge($options, $uploadAttr)) : '';
+        $uploadBtn = $upload ? $this->button('<i class="fa fa-upload"></i> ' . __('Upload'), array_merge($options, $uploadAttr)) : '';
         $options = [
             'id'            => "fachoose-{$domname}",
             'class'         => "btn btn-danger fachoose",
@@ -1021,7 +1021,7 @@ EOD;
         if ($preview) {
             $options['data-preview-id'] = "p-{$domname}";
         }
-        $chooseBtn = $choose ? $this->button('<i class="fa fa-list"></i> 关闭', array_merge($options, $chooseAttr)) : '';
+        $chooseBtn = $choose ? $this->button('<i class="fa fa-list"></i> ' . __('Choose'), array_merge($options, $chooseAttr)) : '';
         $previewAttrHtml = $this->attributes($previewAttr);
         $previewArea = $preview ? '<ul class="row list-inline plupload-preview" id="p-' . $domname . '" ' . $previewAttrHtml . '></ul>' : '';
         $input = $this->text($name, $value, array_merge(['size' => 50, 'id' => "c-{$domname}"], $inputAttr));
