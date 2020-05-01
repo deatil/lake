@@ -13,26 +13,23 @@ class Symlink
     /**
      * 创建软链接
      *
+     * @param string $target 原路径
+     * @param string $link 软连接路径
+     *
      * @create 2020-4-26
      * @author deatil
      */
     public static function make($target, $link)
     {
-        $manual = $target; // 原路径
-        $manualLink = $link; // 软连接路径
-        $isExistFile = true; // 原文件是否存在的标识
-        
         // 原文件存在且软连接不存在时，创建软连接
-        if (!file_exists($manual)) { 
-            return false;
-        }
-        
-        if (file_exists($manualLink)) { 
+        if (!file_exists($target) 
+            || file_exists($link)
+        ) { 
             return false;
         }
         
         // 创建软连接
-        $symlinkStatus = symlink($manual, $manualLink);
+        $symlinkStatus = symlink($target, $link);
         if ($symlinkStatus === false) {
             return false;
         }
@@ -52,8 +49,17 @@ class Symlink
             return false;
         }
         
-        $rmdirStatus = rmdir($link);
-        if ($rmdirStatus === false) {
+        if (is_dir($link)) {
+            $rmdirStatus = rmdir($link);
+            if ($rmdirStatus === false) {
+                return false;
+            }
+        } elseif (is_file($link)) {
+            $unlinkStatus = unlink($link);
+            if ($unlinkStatus === false) {
+                return false;
+            }
+        } else {
             return false;
         }
         
