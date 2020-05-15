@@ -51,19 +51,17 @@ class Symlink
         
         if (is_dir($link)) {
             $rmdirStatus = rmdir($link);
-            if ($rmdirStatus === false) {
-                return false;
+            if ($rmdirStatus === true) {
+                return true;
             }
         } elseif (is_file($link)) {
             $unlinkStatus = unlink($link);
-            if ($unlinkStatus === false) {
-                return false;
+            if ($unlinkStatus === true) {
+                return true;
             }
-        } else {
-            return false;
         }
         
-        return true;
+        return false;
         
     }
 }
