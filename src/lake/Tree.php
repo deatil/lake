@@ -54,15 +54,14 @@ class Tree
      * @param int
      * @return array
      */
-    public function get_child($myid)
+    public function getChild($myid)
     {
         $a = $newarr = array();
         if (is_array($this->arr)) {
             foreach ($this->arr as $id => $a) {
-                if ($a['parentid'] == $myid) {
+                if ((string) $a['parentid'] == (string) $myid) {
                     $newarr[$id] = $a;
                 }
-
             }
         }
         return $newarr ? $newarr : false;
@@ -75,10 +74,15 @@ class Tree
      * @param int 被选中的ID，比如在做树型下拉框的时候需要用到
      * @return string
      */
-    public function get_tree($myid, $str, $sid = 0, $adds = '', $str_group = '')
-    {
+    public function getTree(
+        $myid, 
+        $str, 
+        $sid = 0, 
+        $adds = '', 
+        $str_group = ''
+    ) {
         $number = 1;
-        $child = $this->get_child($myid); //得到子级同级数组
+        $child = $this->getChild($myid); //得到子级同级数组
         if (is_array($child)) {
             $total = count($child); //子级数组个数
             foreach ($child as $id => $value) {
@@ -90,12 +94,12 @@ class Tree
                     $k = $adds ? $this->icon[0] : ''; //额外前置符号
                 }
                 $spacer = $adds ? $adds . $j : '';
-                $selected = $id == $sid ? 'selected' : '';
+                $selected = ((string) $id == (string) $sid) ? 'selected' : '';
                 @extract($value);
                 $parentid == 0 && $str_group ? eval("\$nstr = \"$str_group\";") : eval("\$nstr = \"$str\";");
                 $this->ret .= $nstr;
                 $nbsp = $this->nbsp;
-                $this->get_tree($id, $str, $sid, $adds . $k . $nbsp, $str_group);
+                $this->getTree($id, $str, $sid, $adds . $k . $nbsp, $str_group);
                 $number++;
             }
         }
@@ -109,10 +113,15 @@ class Tree
      * @param integer $sid  默认选中
      * @param integer $adds 前缀
      */
-    public function get_tree_category($myid, $str, $str2, $sid = 0, $adds = '')
-    {
+    public function getTreeCategory(
+        $myid, 
+        $str, 
+        $str2, 
+        $sid = 0, 
+        $adds = ''
+    ) {
         $number = 1;
-        $child = $this->get_child($myid);
+        $child = $this->getChild($myid);
         if (is_array($child)) {
             $total = count($child);
             foreach ($child as $id => $a) {
@@ -133,7 +142,7 @@ class Tree
                     eval("\$nstr = \"$str2\";");
                 }
                 $this->ret .= $nstr;
-                $this->get_tree_category($id, $str, $str2, $sid, $adds . $k . '&nbsp;');
+                $this->getTreeCategory($id, $str, $str2, $sid, $adds . $k . '&nbsp;');
                 $number++;
             }
         }
@@ -150,7 +159,7 @@ class Tree
      */
     public function getTreeArray($myid, $itemprefix = '')
     {
-        $child = $this->get_Child($myid);
+        $child = $this->getChild($myid);
         $n = 0;
         $data = [];
         $number = 1;
@@ -221,7 +230,7 @@ class Tree
     {
         $trees = [];
         foreach ($lists as $value) {
-            if ($value['parentid'] == $id) {
+            if ((string) $value['parentid'] == (string) $id) {
                 $trees[] = $value;
                 if ($sort == 'asc') {
                     $trees = array_merge($trees, $this->getParents($lists, $value['id'], $sort));
@@ -243,7 +252,7 @@ class Tree
     {
         $result = [];
         foreach ($lists as $value) {
-            if ($value['parentid'] == $pid) {
+            if ((string) $value['parentid'] == (string) $pid) {
                 $result[] = $value['id'];
                 if ($sort == 'asc') {
                     $result = array_merge($result, $this->getChildsId($lists, $value['id'], $sort));
@@ -266,7 +275,7 @@ class Tree
     {
         $result = [];
         foreach ($lists as $value) {
-            if ($value['parentid'] == $pid) {
+            if ((string) $value['parentid'] == (string) $pid) {
                 $result[] = $value;
                 if ($sort == 'asc') {
                     $result = array_merge($result, $this->getChilds($lists, $value['id'], $sort));
