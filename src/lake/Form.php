@@ -8,7 +8,6 @@ use ArrayAccess;
  * 表单元素生成
  * @class   Form
  * @package fast
- * @method string token() static 生成Token
  * @method string label(string $name, string $value = null, array $options = []) static label标签
  * @method string input($type, $name, string $value = null, array $options = []) static 按类型生成文本框
  * @method string text(string $name, string $value = null, array $options = []) static 普通文本框

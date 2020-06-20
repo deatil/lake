@@ -50,7 +50,7 @@ class Date
         $offset = $zone_remote->getOffset($time_remote) - $zone_local->getOffset($time_local);
         return $offset;
     }
-
+    
     /**
      * 计算两个时间戳之间相差的时间
      *

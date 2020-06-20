@@ -1,6 +1,6 @@
 <?php
 
-namespace library\tools;
+namespace lake;
 
 /**
  * 处理 Emoji 表情
@@ -33,7 +33,7 @@ class Emoji
             return '\\';
         }, json_encode($content)));
     }
-
+    
     /**
      * Emoji字符串清清理
      * @param string $content
