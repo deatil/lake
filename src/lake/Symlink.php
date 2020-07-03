@@ -62,6 +62,5 @@ class Symlink
         }
         
         return false;
-        
     }
 }

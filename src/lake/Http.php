@@ -3,7 +3,7 @@
 namespace lake;
 
 /**
- * 字符串类
+ * Http请求类
  */
 class Http
 {
