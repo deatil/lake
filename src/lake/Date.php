@@ -126,13 +126,13 @@ class Date
     {
         $timediff = (is_null($local) || $local ? time() : $local) - $remote;
         $chunks = array(
-            array(60 * 60 * 24 * 365, 'year'),
-            array(60 * 60 * 24 * 30, 'month'),
-            array(60 * 60 * 24 * 7, 'week'),
-            array(60 * 60 * 24, 'day'),
-            array(60 * 60, 'hour'),
-            array(60, 'minute'),
-            array(1, 'second')
+            array(60 * 60 * 24 * 365, '年'),
+            array(60 * 60 * 24 * 30, '月'),
+            array(60 * 60 * 24 * 7, '周'),
+            array(60 * 60 * 24, '日'),
+            array(60 * 60, '小时'),
+            array(60, '分钟'),
+            array(1, '秒')
         );
 
         for ($i = 0, $j = count($chunks); $i < $j; $i++) {
@@ -142,7 +142,10 @@ class Date
                 break;
             }
         }
-        return __("%d {$name}%s ago", $count, ($count > 1 ? 's' : ''));
+        
+        $unit = ($count > 1 ? 's' : '');
+        
+        return "{$count} {$name}{$unit} ago";
     }
 
     /**
@@ -199,4 +202,47 @@ class Date
         }
         return $time;
     }
+    
+    /**
+     * 时间间隔美化
+     *
+     * @create 2020-7-19
+     * @author deatil
+     */
+    public function pretty($time, $hasMinute = false)
+    {
+        $return = '';
+        if (!is_numeric($time)) {
+            $time = strtotime($time);
+        }
+        
+        if ($hasMinute) {
+            $timeFormat = 'H:i:s';
+        } else {
+            $timeFormat = 'H:i';
+        }
+        
+        $htime = date($timeFormat, $time);
+        $dif = abs(time() - $time);
+        if ($dif < 10) {
+            $return = '刚刚';
+        } else if ($dif < 3600) {
+            $return = floor($dif / 60) . '分钟前';
+        } else if ($dif < 10800) {
+            $return = floor($dif / 3600) . '小时前';
+        } else if (date('Y-m-d', $time) == date('Y-m-d')) {
+            $return = '今天 ' . $htime;
+        } else if (date('Y-m-d', $time) == date('Y-m-d', strtotime('-1 day'))) {
+            $return = '昨天 ' . $htime;
+        } else if (date('Y-m-d', $time) == date('Y-m-d', strtotime('-2 day'))) {
+            $return = '前天 ' . $htime;
+        } else if (date('Y', $time) == date('Y')) {
+            $return = date('m-d ' . $timeFormat, $time);
+        } else {
+            $return = date('Y-m-d ' . $timeFormat, $time);
+        }
+        
+        return $return;
+    }
+    
 }
