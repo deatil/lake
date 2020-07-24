@@ -92,6 +92,42 @@ class Arr
     }
     
     /**
+     * 打印输出数据到文件
+     * @param mixed $data 输出的数据
+     * @param boolean $force 强制替换
+     * @param string|null $file 文件名称
+     *
+     * @create 2020-7-24
+     * @author deatil
+     */
+    public static function printr($data, $force = false, $file = null)
+    {
+        if (is_null($file)) {
+            return false;
+        }
+        
+        if (is_string($data)) {
+            $str = $data;
+        } else {
+            if (is_array($data) || is_object($data)) {
+                $str = print_r($data, true);
+            } else {
+                $str = var_export($data, true);
+            }
+        }
+        
+        $str = $str . PHP_EOL;
+        
+        if ($force) {
+            file_put_contents($file, $str);
+        } else {
+            file_put_contents($file, $str, FILE_APPEND);
+        }
+        
+        return true;
+    }
+    
+    /**
      * 对查询结果集进行排序
      * @access public
      * @param array $list 查询结果
@@ -244,6 +280,54 @@ class Arr
         $code = http_build_query($data); // url编码并生成query字符串
         $sign = sha1($code); // 生成签名
         return $sign;
+    }
+    
+    /**
+     * 解析配置
+     * @param string $data 配置值
+     * @return array|string
+     *
+     * @create 2020-7-24
+     * @author deatil
+     */
+    public static function parseAttr($data = '')
+    {
+        $array = preg_split('/[,;\r\n ]+/', trim($data, ",;\r\n"));
+        if (strpos($data, ':')) {
+            $value = [];
+            foreach ($array as $val) {
+                list($k, $v) = explode(':', $val);
+                $value[$k] = $v;
+            }
+        } else {
+            $value = $array;
+        }
+        return $value;
+    }
+    
+    /**
+     * 解析配置信息
+     *
+     * @create 2020-7-24
+     * @author deatil
+     */
+    public static function parseFieldList($data = '')
+    {
+        if (empty($data)) {
+            return [];
+        }
+        
+        $json = json_decode($data, true);
+        if (empty($json)) {
+            return [];
+        }
+        
+        $res = [];
+        foreach ($json as $v) {
+            $res[$v['key']] = $v['value'];
+        }
+        
+        return $res;
     }
 
 }
