@@ -98,6 +98,36 @@ class Str
     }
     
     /**
+     * 检查字符串是否是UTF8编码
+     * @param string $string 字符串
+     * @return Boolean
+     */
+    public static function isUtf8($string) {
+        $len = strlen($string);
+        for ($i = 0; $i < $len; $i++) {
+            $c = ord($string[$i]);
+            if ($c > 128) {
+                if (($c >= 254)) return false;
+                elseif ($c >= 252) $bits = 6;
+                elseif ($c >= 248) $bits = 5;
+                elseif ($c >= 240) $bits = 4;
+                elseif ($c >= 224) $bits = 3;
+                elseif ($c >= 192) $bits = 2;
+                else return false;
+                if (($i + $bits) > $len) return false;
+                while ($bits > 1) {
+                    $i++;
+                    $b = ord($string[$i]);
+                    if ($b < 128 || $b > 191) return false;
+                    $bits--;
+                }
+            }
+        }
+
+        return true;
+    }
+    
+    /**
      * 字符截取
      * @param $string 需要截取的字符串
      * @param $length 长度
