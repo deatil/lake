@@ -19,8 +19,8 @@ class File
      */
     public static function byteFormat($bytes)
     {
-        $size_text = array(" B", " KB", " MB", " GB", " TB", " PB", " EB", " ZB", " YB");
-        return round($bytes / pow(1024, ($i = floor(log($bytes, 1024)))), 2) . $size_text[$i];
+        $sizeText = [" B", " KB", " MB", " GB", " TB", " PB", " EB", " ZB", " YB"];
+        return round($bytes / pow(1024, ($i = floor(log($bytes, 1024)))), 2) . $sizeText[$i];
     }
 
     /**
@@ -530,4 +530,45 @@ class File
 
         return $arr_file;
     }
+    
+    /**
+     * 写入数据到php.ini文件
+     *
+     * @param array $array 数据
+     * @param string $file 文件
+     * @return void
+     *
+     * @create 2020-7-28
+     * @author deatil
+     */
+    public static function writePhpIni($array, $file)
+    {
+        if (empty($array)) {
+            return false;
+        }
+        
+        if (empty($file) || !file_exists($file)) {
+            return false;
+        }
+        
+        $res = [];
+        foreach ($array as $key => $val) {
+            if (is_array($val)) {
+                $res[] = "[$key]";
+                foreach ($val as $skey => $sval) {
+                    $res[] = "$skey = $sval";
+                }
+            } else {
+                $res[] = "$key = $val";
+            }
+        }
+        
+        $status = file_put_contents($file, implode("\r\n", $res));
+        if ($status === false) {
+            return false;
+        }
+        
+        return true;
+    }
+    
 }
