@@ -12,7 +12,8 @@ class HttpUserAgent
 {
 
     /**
-     * 获取操作系统
+     * 获取操作系统 
+     * $userAgent = $_SERVER['HTTP_USER_AGENT'];
      * @return string
      *
      * @create 2020-8-14
@@ -20,10 +21,6 @@ class HttpUserAgent
      */
     public static function getOs($userAgent = '')
     {
-        if (empty($userAgent)) {
-            $userAgent = $_SERVER['HTTP_USER_AGENT'];
-        }
-        
         if (empty($userAgent)) {
             return 'Other';
         }
@@ -60,10 +57,6 @@ class HttpUserAgent
      */
     public static function getBrowser($userAgent = '')
     {
-        if (empty($userAgent)) {
-            $userAgent = $_SERVER['HTTP_USER_AGENT'];
-        }
-        
         if (empty($userAgent)) {
             return 'Other';
         }

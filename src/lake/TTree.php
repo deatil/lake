@@ -126,17 +126,17 @@ class TTree
             return [];
         }
         
-        $trees = [];
+        $result = [];
         foreach ($list as $value) {
             if ((string) $value[$this->idKey] == (string) $parentid) {
-                $trees[] = $value;
+                $result[] = $value;
                 
                 $parent = $this->getListParents($list, $value[$this->parentidKey], $sort);
                 if (!empty($parent)) {
                     if ($sort == 'asc') {
-                        $trees = array_merge($trees, $parent);
+                        $result = array_merge($result, $parent);
                     } else {
-                        $trees = array_merge($parent, $trees);
+                        $result = array_merge($parent, $result);
                     }
                 }
             }
@@ -254,7 +254,7 @@ class TTree
             return [];
         }
         
-        $arr = [];
+        $list = [];
         foreach ($data as $k => $v) {
             if (!empty($v)) {
                 if (!isset($v[$this->spacerKey])) {
@@ -264,15 +264,15 @@ class TTree
                 $child = isset($v[$this->buildChildKey]) ? $v[$this->buildChildKey] : [];
                 $v[$this->haschildKey] = $child ? 1 : 0;
                 
-                $arr[] = $v;
+                $list[] = $v;
 
                 if (!empty($child)) {
-                    $arr = array_merge($arr, $this->buildFormatList($child, $field));
+                    $list = array_merge($list, $this->buildFormatList($child, $field));
                 }
             }
         }
         
-        return $arr;
+        return $list;
     }
 
 }
