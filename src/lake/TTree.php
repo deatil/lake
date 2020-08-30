@@ -233,13 +233,36 @@ class TTree
         $id = (string) $id;
         $newData = [];
         foreach ($list as $key => $data) {
-            $dataId = (string) $data[$this->parentidKey];
-            if ($dataId == $id) {
+            $dataParentId = (string) $data[$this->parentidKey];
+            if ($dataParentId == $id) {
                 $newData[$key] = $data;
             }
         }
         
         return $newData ?: [];
+    }
+
+    /**
+     * 获取ID自己的数据
+     * @param array         $list 数据集
+     * @param string|int    $id 当前id
+     * @return array
+     */
+    public function getListSelf($list = [], $id)
+    {
+        if (empty($list) || !is_array($list)) {
+            return [];
+        }
+        
+        $id = (string) $id;
+        foreach ($list as $key => $data) {
+            $dataId = (string) $data[$this->idKey];
+            if ($dataId == $id) {
+                return $data;
+            }
+        }
+        
+        return [];
     }
 
     /**
