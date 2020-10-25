@@ -3,11 +3,13 @@
 namespace Lake;
 
 /**
- * Http请求类
+ * Curl 请求
+ *
+ * @create 2019-10-15
+ * @author deatil
  */
 class Http
 {
-
     /**
      * 发送一个POST请求
      * @param string $url     请求URL
@@ -31,6 +33,32 @@ class Http
     public static function get($url, $params = [], $options = [])
     {
         $req = self::sendRequest($url, $params, 'GET', $options);
+        return $req['ret'] ? $req['msg'] : '';
+    }
+
+    /**
+     * 发送一个PUT请求
+     * @param string $url     请求URL
+     * @param array  $params  请求参数
+     * @param array  $options 扩展参数
+     * @return mixed|string
+     */
+    public static function put($url, $params = [], $options = [])
+    {
+        $req = self::sendRequest($url, $params, 'PUT', $options);
+        return $req['ret'] ? $req['msg'] : '';
+    }
+
+    /**
+     * 发送一个DELETE请求
+     * @param string $url     请求URL
+     * @param array  $params  请求参数
+     * @param array  $options 扩展参数
+     * @return mixed|string
+     */
+    public static function delete($url, $params = [], $options = [])
+    {
+        $req = self::sendRequest($url, $params, 'DELETE', $options);
         return $req['ret'] ? $req['msg'] : '';
     }
 
@@ -67,8 +95,8 @@ class Http
         $defaults[CURLOPT_USERAGENT] = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.98 Safari/537.36";
         $defaults[CURLOPT_FOLLOWLOCATION] = true;
         $defaults[CURLOPT_RETURNTRANSFER] = true;
-        $defaults[CURLOPT_CONNECTTIMEOUT] = 3;
-        $defaults[CURLOPT_TIMEOUT] = 3;
+        $defaults[CURLOPT_CONNECTTIMEOUT] = 500;
+        $defaults[CURLOPT_TIMEOUT] = 500;
 
         // disable 100-continue
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
@@ -181,5 +209,83 @@ class Http
                 exit;
             }
         }
+    }
+    
+    /**
+     * 向目标地址推送文件
+     * @param string $url    请求的链接
+     * @param mixed  $params 请求的参数
+     * @param array  $options 扩展参数
+     * @return mixed|string
+     */
+    public static function uploadFile($url, $params = [], $options = [])
+    {
+        $method = strtoupper($method);
+        $protocol = substr($url, 0, 5);
+        $query_string = $params;
+
+        $ch = curl_init();
+        $defaults = [];
+        $defaults[CURLOPT_URL] = $url;
+        $defaults[CURLOPT_POST] = 1;
+        $defaults[CURLOPT_POSTFIELDS] = $query_string;
+
+        $defaults[CURLOPT_HEADER] = false;
+        $defaults[CURLOPT_USERAGENT] = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.98 Safari/537.36";
+        $defaults[CURLOPT_FOLLOWLOCATION] = true;
+        $defaults[CURLOPT_RETURNTRANSFER] = true;
+        $defaults[CURLOPT_CONNECTTIMEOUT] = 500;
+        $defaults[CURLOPT_TIMEOUT] = 500;
+
+        // disable 100-continue
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
+
+        if ('https' == $protocol) {
+            $defaults[CURLOPT_SSL_VERIFYPEER] = false;
+            $defaults[CURLOPT_SSL_VERIFYHOST] = false;
+        }
+
+        curl_setopt_array($ch, (array)$options + $defaults);
+
+        $ret = curl_exec($ch);
+        $err = curl_error($ch);
+
+        if (false === $ret || !empty($err)) {
+            $errno = curl_errno($ch);
+            $info = curl_getinfo($ch);
+            curl_close($ch);
+            return [
+                'ret'   => false,
+                'errno' => $errno,
+                'msg'   => $err,
+                'info'  => $info,
+            ];
+        }
+        curl_close($ch);
+        return [
+            'ret' => true,
+            'msg' => $ret,
+        ];
+    }
+    
+    /**
+     * 根据文件路径获取一个CURLFile类实例
+     * @param string $file 文件路径
+     * @return CURLFile
+     *
+     * example:
+     * $txt = self::makeCurlFile("./public/file.txt");
+     */
+    public static function makeCurlFile($file, $mime = null)
+    {
+        if (empty($mime)) {
+            $result = new finfo();
+            $mime = $result->file($file, FILEINFO_MIME_TYPE);
+        }
+        
+        $info = pathinfo($file);
+        $name = $info['basename'];
+        $output = new CURLFile($file, $mime, $name);
+        return $output;
     }
 }
